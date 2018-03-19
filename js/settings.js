@@ -147,7 +147,6 @@ var Settings = function(jQuery, form) {
         if(typeof value  === 'object' && !(value instanceof Array)){
           var next_reminder_date = new Date(value["next_reminder"]).getDate();
           var curr_date = new Date();
-          curr_date = curr_date.addDays(6);
           curr_date = curr_date.getDate();
 
           if(next_reminder_date === curr_date){
