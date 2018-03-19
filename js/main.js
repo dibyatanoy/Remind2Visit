@@ -1,5 +1,5 @@
 jQuery.noConflict();
-(function($) { 
+(function($) {
   $(function() {
     // shorthand logging function
   	var l = function(message) {
@@ -18,38 +18,44 @@ jQuery.noConflict();
 
     /**
      * Add your production codehere.
-     */   
+     */
 
     /** BADGE START
      *
      * Add buttons to set and reset the Badge. The badge is in the lower right
      * of the extensin plugin and should be max 4 chars long.
      */
-    $('#home').append('<div class="button-wrapper" />');
-    $('#home .button-wrapper').append('<button type="button" class="btn btn-success set-badge">Set badge</button>');
-    $('#home .button-wrapper').append('<button type="button" class="btn btn-warning reset-badge">Reset badge</button>');
-                    
-    $('.set-badge').click(function() {
-      chrome.browserAction.setBadgeText({'text': '1111'});
-    });
+    // $('#home').append('<div class="button-wrapper" />');
+    // $('#home .button-wrapper').append('<button type="button" class="btn btn-success set-badge">Set badge</button>');
+    // $('#home .button-wrapper').append('<button type="button" class="btn btn-warning reset-badge">Reset badge</button>');
 
-    $('.reset-badge').click(function() {
-      chrome.browserAction.setBadgeText({'text': ''});
-    });
-    /* BADGE END*/
+    // $('.set-badge').click(function() {
+    //   chrome.browserAction.setBadgeText({'text': '1111'});
+    // });
+    //
+    // $('.reset-badge').click(function() {
+    //   chrome.browserAction.setBadgeText({'text': ''});
+    // });
+    // /* BADGE END*/
 
     /** TEXT START
      *
      *
      */
-    var text = ['This is', 'jquery appending', 'line after line.', '<span class="glyphicon glyphicon-star"></span>'];
-    var show = function(text, index) {
-      if(index >= text.length) return;
-      $('#home').append($('<div class="line">' + text[index] + '</div>').fadeIn(2000, function(){
-        show(text, index+1);
-      }));
-    }
-    show(text, 0);
+
+    $('#home').append('<div class="welcome-text text-center" />');
+    $('#home .welcome-text').append('<h3>Hello there! <i class="em em-smiley"></i></h3>');
+    $('#home .welcome-text').append('<p> </p>');
+    $('#home .welcome-text').append('<p> </p>');
+    $('#home .welcome-text').append('<p>Check the next tab to see what websites you wanted to visit today</p>');
+    // var text = ['This is', 'jquery appending', 'line after line.', '<span class="glyphicon glyphicon-star"></span>'];
+    // var show = function(text, index) {
+    //   if(index >= text.length) return;
+    //   $('#home').append($('<div class="line">' + text[index] + '</div>').fadeIn(2000, function(){
+    //     show(text, index+1);
+    //   }));
+    // }
+    // show(text, 0);
     /* TEXT END */
 
   });

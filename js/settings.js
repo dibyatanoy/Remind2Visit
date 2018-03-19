@@ -171,6 +171,10 @@ var Settings = function(jQuery, form) {
     });
   };
 
+  this.loadTodaysReminders =  function(){
+    loadTodaysReminders();
+  }
+
   // Pass a value by its key to a callback function
   this.get = function(key, callback) {
     var value = chrome.storage.sync.get(key, function(e) {
