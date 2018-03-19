@@ -87,12 +87,12 @@ var Settings = function(jQuery, form) {
       $("#reminder-list table tbody").empty();
 
       $.each(items, function(key, value){
-        console.log(key + ": " + value);
+        // console.log(key + ": " + value);
         if(typeof value  === 'object' && !(value instanceof Array)){
-          console.log(value["link"]);
-          console.log(value["freq_val"]);
-          console.log(value["freq_type"]);
-          console.log(value["next_reminder"]);
+          // console.log(value["link"]);
+          // console.log(value["freq_val"]);
+          // console.log(value["freq_type"]);
+          // console.log(value["next_reminder"]);
 
           var plural = "";
           if(value["freq_val"] > 1){
@@ -100,13 +100,22 @@ var Settings = function(jQuery, form) {
           }
           var tr =
             '<tr>'+
-               '<td><a href=\"'+value["link"]+'\">' + value["link"] + '</a></td>'+
+               '<td><a class=\"new-tab-open\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></td>'+
                '<td>'+ "Every " + value["freq_val"] + " " +
                period_labels[value["freq_type"]] + plural +'</td>'+
             '</tr>';
            $("#reminder-list table tbody").append(tr);
         }
       });
+
+      var links = document.getElementsByClassName("new-tab-open");
+      console.log(links.length);
+      for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function(event){
+          var targetElement = event.target;
+          chrome.tabs.create({url: targetElement.href});
+        }, false);
+      }
 
       // var $item = null;
       // $.each(e, function(key, value) {
