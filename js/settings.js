@@ -76,6 +76,7 @@ var Settings = function(jQuery, form) {
     // Syncing the data with the storage
     chrome.storage.sync.set(options, function() {
       console.log('Saved the settings');
+      clearAddLinkFields();
     });
   };
 
@@ -181,6 +182,12 @@ var Settings = function(jQuery, form) {
     });
   }
 
+  var clearAddLinkFields = function(){
+    $('#site-url').val('');
+    $('#freq_val').val('');
+    $('#freq_type').val("item-day");
+  };
+
   // Action when the save button is clicked
   $('.save-settings').click(function(e) {
     e.preventDefault();
@@ -190,9 +197,7 @@ var Settings = function(jQuery, form) {
   // Action when the cancel button is clicked
   $('.cancel-settings').click(function(e) {
     e.preventDefault();
-    $('#site-url').val('');
-    $('#freq_val').val('');
-    $('#freq_type').val("item-day");
+    clearAddLinkFields();
   });
 
   // Action when the list tab is clicked
