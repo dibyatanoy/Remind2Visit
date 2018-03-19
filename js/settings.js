@@ -109,7 +109,6 @@ var Settings = function(jQuery, form) {
       });
 
       var links = document.getElementsByClassName("new-tab-open");
-      console.log(links.length);
       for (var i = 0; i < links.length; i++) {
         links[i].addEventListener('click', function(event){
           var targetElement = event.target;
@@ -139,6 +138,39 @@ var Settings = function(jQuery, form) {
     });
   };
 
+  var loadTodaysReminders = function(){
+    var hasReminders = false;
+    $("#today-reminder-list table tbody").empty();
+
+    chrome.storage.sync.get(null, function(items){
+      $.each(items, function(key, value){
+        if(typeof value  === 'object' && !(value instanceof Array)){
+          var next_reminder_date = new Date(value["next_reminder"]).getDate();
+          var curr_date = new Date();
+          curr_date = curr_date.addDays(6);
+          curr_date = curr_date.getDate();
+
+          if(next_reminder_date === curr_date){
+            hasReminders = true;
+            var tr =
+              '<tr>'+
+                 '<td><a class=\"new-tab-open\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></td>'+
+              '</tr>';
+             $("#today-reminder-list table tbody").append(tr);
+          }
+
+        }
+      });
+      if(!hasReminders){
+        var tr =
+          '<tr>'+
+             '<td>No reminders today!</td>'+
+          '</tr>';
+         $("#today-reminder-list table tbody").append(tr);
+      }
+    });
+  };
+
   // Pass a value by its key to a callback function
   this.get = function(key, callback) {
     var value = chrome.storage.sync.get(key, function(e) {
@@ -155,6 +187,11 @@ var Settings = function(jQuery, form) {
   // Action when the cancel button is clicked
   $('.cancel-settings').click(function(e) {
     e.preventDefault();
+  });
+
+  // Action when the list tab is clicked
+  $('#today-tab').click(function(e) {
+    loadTodaysReminders();
   });
 
   // Action when the list tab is clicked

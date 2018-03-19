@@ -15,6 +15,7 @@
       <li class="active"><a href="#home">Home</a></li>
       <li><a href="#settings"><span class="glyphicon glyphicon-wrench"></span></a></li>
       <li><a href="#addlink"><span class="glyphicon glyphicon-plus"></span></a></li>
+      <li id="today-tab"><a href="#todaylist"><span class="glyphicon glyphicon-time"></span></a></li>
       <li id="list-tab"><a href="#viewlist"><span class="glyphicon glyphicon-list"></span></a></li>
     </ul>
 
@@ -133,6 +134,9 @@
       </div>
 
       <div class="tab-pane" id="viewlist">
+        <div class="text-center">
+            <label>All Reminders</label>
+        </div>
         <div id="reminder-list">
         <table class="table table-bordered table-striped">
               <colgroup>
@@ -143,6 +147,23 @@
                 <tr>
                   <th>Link</th>
                   <th>Frequency</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="todaylist">
+        <div id="today-reminder-list">
+        <table class="table table-bordered table-striped">
+              <colgroup>
+                <col class="col-xs-12">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th text-align="center">Today's Reminders</th>
                 </tr>
               </thead>
               <tbody>

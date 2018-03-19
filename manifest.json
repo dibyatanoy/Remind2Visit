@@ -7,16 +7,17 @@
 
   "permissions": [
     "storage",
-    "alarms"
+    "alarms",
+    "notifications"
   ],
 
   "browser_action": {
     "default_title": "Remind2Visit",
-    "default_icon": "images/icon.png",
+    "default_icon": "images/main_icon.png",
     "default_popup": "html/popup.html"
   },
 
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": ["js/jquery-1.10.2.min.js", "js/background.js"]
   }
 }
