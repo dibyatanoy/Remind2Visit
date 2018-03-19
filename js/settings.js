@@ -190,6 +190,9 @@ var Settings = function(jQuery, form) {
   // Action when the cancel button is clicked
   $('.cancel-settings').click(function(e) {
     e.preventDefault();
+    $('#site-url').val('');
+    $('#freq_val').val('');
+    $('#freq_type').val("item-day");
   });
 
   // Action when the list tab is clicked
@@ -200,6 +203,18 @@ var Settings = function(jQuery, form) {
   // Action when the list tab is clicked
   $('#list-tab').click(function(e) {
     initialize();
+  });
+
+  $('#add-tab').click(function(e) {
+    var query = { active: true, currentWindow: true };
+    chrome.tabs.query(query, function(tabs){
+      var curr_tab_url = tabs[0].url;
+      var prefix_pos = curr_tab_url.indexOf("://");
+      if(prefix_pos > -1){
+        curr_tab_url = curr_tab_url.substring(prefix_pos+3);
+      }
+      $('#site-url').val(curr_tab_url);
+    });
   });
 
 };
