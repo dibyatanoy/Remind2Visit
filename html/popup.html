@@ -65,6 +65,8 @@
 
         <div class="container-fluid">
 
+          <div id="addlink-alert-holder"></div>
+
           <form class="form-inline">
 
             <div class="form-group row">
@@ -135,19 +137,22 @@
       </div>
 
       <div class="tab-pane" id="viewlist">
+        <div id="viewlist-alert-holder"></div>
         <div class="text-center">
             <label>All Reminders</label>
         </div>
         <div id="reminder-list">
         <table class="table table-bordered table-striped">
               <colgroup>
-                <col class="col-xs-7">
-                <col class="col-xs-5">
+                <col class="col-xs-6">
+                <col class="col-xs-4">
+                <col class="col-xs-2">
               </colgroup>
               <thead>
                 <tr>
                   <th>Link</th>
                   <th>Frequency</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

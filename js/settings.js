@@ -77,6 +77,8 @@ var Settings = function(jQuery, form) {
     chrome.storage.sync.set(options, function() {
       console.log('Saved the settings');
       clearAddLinkFields();
+      $("#addlink-alert-holder").html('<div class="alert alert-success alert-dismissable fade in">'+
+      '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+"Reminder created!"+'</div>');
     });
   };
 
@@ -101,9 +103,10 @@ var Settings = function(jQuery, form) {
           }
           var tr =
             '<tr>'+
-               '<td><a class=\"new-tab-open\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></td>'+
-               '<td>'+ "Every " + value["freq_val"] + " " +
-               period_labels[value["freq_type"]] + plural +'</td>'+
+               '<td><div><a class=\"new-tab-open\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></div></td>'+
+               '<td><div>'+ "Every " + value["freq_val"] + " " +
+               period_labels[value["freq_type"]] + plural +'</div></td>'+
+               '<td><span id="'+key+'" class="remove-row-btn glyphicon glyphicon-trash"></span></td>'
             '</tr>';
            $("#reminder-list table tbody").append(tr);
         }
@@ -116,6 +119,33 @@ var Settings = function(jQuery, form) {
           chrome.tabs.create({url: targetElement.href});
         }, false);
       }
+
+      $('.remove-row-btn').click(function(e) {
+        e.preventDefault();
+        var object = $(this);
+        console.log("span clicked");
+        object.parent().parent().find('td').each(function(index, element){
+          // Wrap each td inside the selected tr in a temporary div
+    			$(this).wrapInner('<div class="td_wrapper"></div>');
+
+          $(this).parent().find('.td_wrapper').each(function(index, element){
+            // SlideUp the wrapper div
+    				$(this).slideUp();
+            $(this).animate({
+    					'padding-top': '0px',
+    					'padding-bottom': '0px',
+              'border-top': '0px',
+              'border-bottom': '0px',
+    				}, function() {
+              chrome.storage.sync.remove(object.attr('id'), function(){
+                object.parentsUntil('tr').parent().remove();
+                $("#viewlist-alert-holder").html('<div class="alert alert-danger alert-dismissable fade in">'+
+                '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+"Reminder deleted."+'</div>');
+              });
+    				});
+          });
+        });
+      });
 
       // var $item = null;
       // $.each(e, function(key, value) {

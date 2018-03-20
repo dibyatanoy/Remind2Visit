@@ -24,6 +24,10 @@ body {
   margin-bottom: 10px;
 }
 
+.remove-row-btn{
+  cursor: pointer;;
+}
+
 form.settings label{
  width: 100px;
  display: block;
