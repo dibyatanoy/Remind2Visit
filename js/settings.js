@@ -1,4 +1,6 @@
 
+const period_lengths = {"item-day": 1, "item-week": 7, "item-month": 30};
+
 Date.prototype.addDays = function(days) {
   var dat = new Date(this.valueOf());
   dat.setDate(dat.getDate() + days);
@@ -24,8 +26,6 @@ var Settings = function(jQuery, form) {
 
   // Save and sync all settings
   var save = function(){
-
-    var period_lengths = {"item-day": 1, "item-week": 7, "item-month": 30};
 
     var link_url = document.getElementById('site-url').value;
     var freq_val = document.getElementById('freq_val').value;
@@ -157,6 +157,19 @@ var Settings = function(jQuery, form) {
                  '<td><a class=\"new-tab-open\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></td>'+
               '</tr>';
              $("#today-reminder-list table tbody").append(tr);
+          }else if(next_reminder_date < curr_date){
+            var new_reminder = new Date(value["next_reminder"]);
+            while(new_reminder.getDate() < curr_date){
+              new_reminder = new_reminder.addDays(
+                parseInt(value["freq_val"]) * period_lengths[value["freq_type"]]);
+            }
+            value["next_reminder"] = new_reminder.toString();
+            var options = {};
+            options[key] = value;
+
+            chrome.storage.sync.set(options, function() {
+              console.log('Saved the new reminder date');
+            });
           }
 
         }

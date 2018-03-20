@@ -1,6 +1,7 @@
 
 const notifPeriodMins = 4*60*60;
 const alarmName = "visit-checker";
+const period_lengths = {"item-day": 1, "item-week": 7, "item-month": 30};
 var remindedThisSession = false;
 var lastNotification;
 
@@ -30,10 +31,24 @@ var loadTodaysReminders = function(){
       if(typeof value  === 'object' && !(value instanceof Array)){
         var next_reminder_date = new Date(value["next_reminder"]).getDate();
         var curr_date = new Date();
+        var tmp_cdate = new Date();
         curr_date = curr_date.getDate();
 
         if(next_reminder_date === curr_date){
           numRemindersToday++;
+        }else if(next_reminder_date < curr_date){
+
+          var new_reminder = new Date(value["next_reminder"]);
+          while(new_reminder.getDate() < curr_date){
+            new_reminder = new_reminder.addDays(
+              parseInt(value["freq_val"]) * period_lengths[value["freq_type"]]);
+          }
+          
+          value["next_reminder"] = new_reminder.toString();
+          var options = {};
+          options[key] = value;
+
+          chrome.storage.sync.set(options, function() {});
         }
 
       }
