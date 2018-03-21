@@ -174,6 +174,7 @@ var Settings = function(jQuery, form) {
     $("#today-reminder-list table tbody").empty();
 
     chrome.storage.sync.get(null, function(items){
+      var today_links = [];
       $.each(items, function(key, value){
         if(typeof value  === 'object' && !(value instanceof Array)){
           var next_reminder_date = new Date(value["next_reminder"]).getDate();
@@ -184,9 +185,11 @@ var Settings = function(jQuery, form) {
             hasReminders = true;
             var tr =
               '<tr>'+
-                 '<td><a class=\"new-tab-open\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></td>'+
+                 '<td><a class=\"new-tab-open-today\" href=\"http://'+value["link"]+'\">' + value["link"] + '</a></td>'+
               '</tr>';
              $("#today-reminder-list table tbody").append(tr);
+
+             today_links.push(value["link"])
           }else if(next_reminder_date < curr_date){
             var new_reminder = new Date(value["next_reminder"]);
             while(new_reminder.getDate() < curr_date){
@@ -204,6 +207,15 @@ var Settings = function(jQuery, form) {
 
         }
       });
+
+      var links = document.getElementsByClassName("new-tab-open-today");
+      for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function(event){
+          var targetElement = event.target;
+          chrome.tabs.create({url: targetElement.href});
+        }, false);
+      }
+
       if(!hasReminders){
         var tr =
           '<tr>'+
